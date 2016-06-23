@@ -20,23 +20,22 @@ public class Displayer {
     public static List<Map.Entry<String, Integer>> sortImportClassesMap(Map<String, Integer> list){
         List<Map.Entry<String, Integer>> sortedList = new ArrayList<Map.Entry<String, Integer>>(list.entrySet());
 
-        // 根据引用类名按字典序升序排序
-        Collections.sort(sortedList, new Comparator<Map.Entry<String, Integer>>(){
-
-            @Override
+        Collections.sort(sortedList, new Comparator<Map.Entry<String, Integer>>() {
             public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
-                return o1.getKey().compareTo(o2.getKey());
-            }
-        } );
+                int cnt1 = o1.getValue();
+                int cnt2 = o2.getValue();
 
-        // 根据引用次数再次按降序排序
-        Collections.sort(sortedList, new Comparator<Map.Entry<String, Integer>>(){
-
-            @Override
-            public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
-                return o2.getValue() - o1.getValue();
+                if (cnt1 > cnt2){// 根据引用次数再次按降序排序
+                    return -1;
+                }
+                else if (cnt1 == cnt2){// 根据引用类名按字典序升序排序
+                    return o1.getKey().compareTo(o2.getKey());
+                }
+                else {
+                    return 1;
+                }
             }
-        } );
+        });
 
         return sortedList;
     }
